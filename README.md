@@ -23,7 +23,7 @@ OUTCOMES:
 
 Helpful Links:
 
-- Model: [Qwen2.5-Math-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-Math-3B-Instruct)
+- Model: [Qwen2.5-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-3B-Instruct)
 - Dataset: [AceReason-1.1-SFT SUBSET 100K](https://huggingface.co/datasets/redsgnaoh/acereason11_100k)
 - LLaMA-Factory: [https://github.com/hiyouga/LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)
 - Eval: [lighteval](https://github.com/huggingface/lighteval)
@@ -236,7 +236,7 @@ Create a YAML configuration file named `sft_config.yaml` to specify the training
 ```yaml
 # sft_config.yaml
 ### model
-model_name_or_path: Qwen/Qwen2.5-Math-3B-Instruct
+model_name_or_path: Qwen/Qwen2.5-3B-Instruct
 
 ### method
 stage: sft
