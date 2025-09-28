@@ -83,6 +83,8 @@ llamafactory-cli train yamls/your_sft_config.yaml
 # python my_training_script.py
 ```
 
+Please check for the available GPU partitions: [here](https://dashboard.arc.vt.edu/d/feavoh81ioglca/arc-cluster-job-resources-availability?orgId=1&from=now-24h&to=now&timezone=browser&var-datasource=$__all&var-partition=$__all&var-cpus=1&var-gpus=1&var-memory=8&refresh=1m).
+
 **Step 2: Submit the Job**
 
 To submit your job, open a terminal session on ARC: **[ARC Shell Access](https://ood.arc.vt.edu/pun/sys/shell/ssh/tinkercliffs2.arc.vt.edu)**.
