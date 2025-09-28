@@ -70,9 +70,11 @@ First, create a shell script file named `run_training.sh`. This file will contai
 #SBATCH --account=ece_6514          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
 
+module load Miniconda3
+
 #-- Your Code Execution --#
 # Ensure you are in the correct conda environment if necessary
-# conda activate your_env_name
+source activate your_env_name
 
 # Command to start the fine-tuning job
 llamafactory-cli train yamls/your_sft_config.yaml
