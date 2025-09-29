@@ -105,7 +105,20 @@ Now that you know how to interact with the ARC environment, we can proceed with 
 
 ## 1. Environment Setup
 
-First, you need to set up the environments for training and evaluation. It's best to clone all the necessary repositories from the start.
+First, before running any code, you need to set up the environments for training and evaluation. It's best to clone all the necessary repositories from the start.
+
+**0.1 Enter ARC Terminal**
+
+We will create our environment on the ARC system. 
+
+First, enter the terminal either through: [ARC Shell](https://ood.arc.vt.edu/pun/sys/shell/ssh/tinkercliffs2.arc.vt.edu) or through ssh `ssh username@tinkercliffs2.arc.vt.edu`. 
+We then load necessary modules as follows:
+
+```bash
+module load Miniconda3
+module load CUDA/12.6.0
+```
+
 
 **1.0 Setup Huggingface Token**
 
@@ -113,12 +126,13 @@ Create an account and token (read and write access) on Huggingface: [https://hug
 
 
 
+
 **1.1. [LLaMA-Factory](LLaMA-Factory) for Training**
 
 ```bash
-# git clone https://github.com/hiyouga/LLaMA-Factory.git (Only if you want to download separately, otherwise skip).
+git depth -1 clone https://github.com/hiyouga/LLaMA-Factory.git 
 cd LLaMA-Factory
-conda create -n myenv python=3.10
+conda create -n myenv python=3.10 # if you are familiar with uv, feel free to use uv instead
 conda activate myenv
 pip install -r requirements.txt
 ```
@@ -126,10 +140,21 @@ pip install -r requirements.txt
 **1.2. [lighteval](https://github.com/huggingface/lighteval) Evaluation**
 
 ```bash
-pip install lighteval
+pip install lighteval[vllm]
+pip install lighteval[extended_tasks,math,dev]
 ```
 
-Remember to activate the `myenv` conda environment for all steps.
+Use `conda list` to check if your packages are installed.
+
+**1.3 (Optional) Flash Attention 2**
+
+We can install Flash Attention through pip if not already installed:
+
+```bash
+pip install flash-attn --no-build-isolation
+```
+
+**Remember to activate the `myenv` conda environment for all steps.**
 
 **1.4. Downloading the Subset of AceReason-1.1-SFT to local directory**
 
@@ -146,6 +171,8 @@ hf_hub_download(repo_id="redsgnaoh/acereason11_100k", filename="data/acereason11
 ```
 
 The `acereason11_100k.json` file is in a 'training-ready' format. (More information below.)
+
+
 
 
 ## 2. Base Model Evaluation
@@ -169,9 +196,8 @@ MODEL=Qwen/Qwen2.5-3B-Instruct
 MODEL_ARGS="model_name=$MODEL,dtype=bfloat16,tensor_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.95,generation_parameters={max_new_tokens:32768,temperature:0.6,top_p:0.95}"
 OUTPUT_DIR=your/output/dir
 
-lighteval vllm $MODEL_ARGS "lighteval|aime24|0|0,lighteval|aime25|0|0,lighteval|math_500|0|0,lighteval|gpqa:diamond|0|0,extended|lcb:codegeneration|0|0“
---use-chat-template 
-    --save-details 
+lighteval vllm $MODEL_ARGS "lighteval|aime24|0|0,lighteval|aime25|0|0,lighteval|math_500|0|0,lighteval|gpqa:diamond|0|0,extended|lcb:codegeneration|0|0“ \
+    --save-details \
 --output-dir $OUTPUT_DIR
 ```
 
@@ -191,8 +217,7 @@ MODEL=Qwen/Qwen2.5-3B-Instruct
 MODEL_ARGS="model_name=$MODEL,dtype=bfloat16,tensor_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.8,generation_parameters={max_new_tokens:32768,temperature:0.6,top_p:0.95}"
 OUTPUT_DIR=your/output/dir
 
-lighteval vllm $MODEL_ARGS "lighteval|mmlu_redux_2|0|0" 
---use-chat-template 
+lighteval vllm $MODEL_ARGS "lighteval|mmlu_redux_2|0|0" \
 --output-dir $OUTPUT_DIR
 
 ```
@@ -302,9 +327,8 @@ MODEL=/path/to/your/model
 MODEL_ARGS="model_name=$MODEL,dtype=bfloat16,tensor_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.95,generation_parameters={max_new_tokens:32768,temperature:0.6,top_p:0.95}"
 OUTPUT_DIR=your/output/dir
 
-lighteval vllm $MODEL_ARGS "lighteval|aime24|0|0,lighteval|aime25|0|0,lighteval|math_500|0|0,lighteval|gpqa:diamond|0|0,extended|lcb:codegeneration|0|0,lighteval|mmlu_redux_2|0|0“
---use-chat-template 
-    --save-details 
+lighteval vllm $MODEL_ARGS "lighteval|aime24|0|0,lighteval|aime25|0|0,lighteval|math_500|0|0,lighteval|gpqa:diamond|0|0,extended|lcb:codegeneration|0|0,lighteval|mmlu_redux_2|0|0“ \
+    --save-details \
 --output-dir $OUTPUT_DIR
 ```
 
