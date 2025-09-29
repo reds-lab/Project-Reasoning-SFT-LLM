@@ -135,13 +135,17 @@ cd LLaMA-Factory
 conda create -n myenv python=3.10 # if you are familiar with uv, feel free to use uv instead
 conda activate myenv
 pip install -r requirements.txt
+pip install -e ".[torch,metrics]" --no-build-isolation
 ```
 
 **1.2. [lighteval](https://github.com/huggingface/lighteval) Evaluation**
 
+
 ```bash
-pip install lighteval[vllm]
-pip install lighteval[extended_tasks,math,dev]
+git clone https://github.com/huggingface/lighteval.git
+cd lighteval/
+pip install lighteval[vllm,extended_tasks,math,dev] 
+pip install -e .
 ```
 
 Use `conda list` to check if your packages are installed.
