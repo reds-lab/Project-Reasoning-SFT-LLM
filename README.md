@@ -71,6 +71,7 @@ First, create a shell script file named `run_training.sh`. This file will contai
 #SBATCH --gres=gpu:1                # Request 1 GPU
 
 module load Miniconda3
+module load CUDA/12.6.0
 
 #-- Your Code Execution --#
 # Ensure you are in the correct conda environment if necessary
