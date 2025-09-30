@@ -98,6 +98,8 @@ sbatch run_training.sh
 
 The system will respond with a job ID. You can monitor the status of your job using commands like `squeue -u <YourPID>` or check the output files once it completes.
 
+BUT we will not run the training at this stage :)  We will setup the environment first and follow up with the evaluation. 
+
 ---
 
 Now that you know how to interact with the ARC environment, we can proceed with setting up the project, training the model, and evaluating its performance.
