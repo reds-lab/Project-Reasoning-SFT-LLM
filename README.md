@@ -167,7 +167,10 @@ pip install flash-attn --no-build-isolation
 We will download subset of [AceReason-1.1-SFT](https://huggingface.co/datasets/nvidia/AceReason-1.1-SFT) of size 100K.
 This will be the dataset we mainly use to train our models.
 
+Now, using Python:
+
 ```
+> python
 
 from huggingface_hub import hf_hub_download
 # Login using e.g. `huggingface-cli login` to access this dataset
