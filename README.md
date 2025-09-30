@@ -133,7 +133,7 @@ Create an account and token (read and write access) on Huggingface: [https://hug
 git depth -1 clone https://github.com/hiyouga/LLaMA-Factory.git 
 cd LLaMA-Factory
 conda create -n myenv python=3.10 # if you are familiar with uv, feel free to use uv instead
-conda activate myenv
+source activate myenv
 pip install -r requirements.txt
 pip install -e ".[torch,metrics]" --no-build-isolation
 ```
