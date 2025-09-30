@@ -66,7 +66,7 @@ First, create a shell script file named `run_training.sh`. This file will contai
 #SBATCH --nodes=1                   # Request a single node
 #SBATCH --ntasks-per-node=2         # Request 2 CPU cores
 #SBATCH --time=1:00:00              # Set a 1-hour time limit
-#SBATCH --partition=h200_normal_q    # Specify the GPU partition
+#SBATCH --partition=h200_normal_q   # Specify the GPU partition: h200_normal_q, a100_normal_q on Tinkercliffs | a30_normal_q on Falcon
 #SBATCH --account=ece_6514          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
 
@@ -88,7 +88,9 @@ Please check for the available GPU partitions: [here](https://dashboard.arc.vt.e
 
 **Step 2: Submit the Job**
 
-To submit your job, open a terminal session on ARC: **[ARC Shell Access](https://ood.arc.vt.edu/pun/sys/shell/ssh/tinkercliffs2.arc.vt.edu)**.
+To submit your job, open a terminal session on ARC: 
++ **[ARC Shell Access - Tinkercliffs](https://ood.arc.vt.edu/pun/sys/shell/ssh/tinkercliffs2.arc.vt.edu)**.
++ **[ARC Shell Access - Falcon](https://ood.arc.vt.edu/pun/sys/shell/ssh/falcon1.arc.vt.edu)**.
 
 Navigate to the directory containing your `run_training.sh` script and use the `sbatch` command to add it to the queue:
 
@@ -98,7 +100,7 @@ sbatch run_training.sh
 
 The system will respond with a job ID. You can monitor the status of your job using commands like `squeue -u <YourPID>` or check the output files once it completes.
 
-BUT we will not run the training at this stage :)  We will setup the environment first and follow up with the evaluation. 
+**BUT** we will not run the training at this stage :)  We will setup the environment first and follow up with the evaluation. 
 
 ---
 
@@ -152,7 +154,7 @@ pip install -e .
 
 Use `conda list` to check if your packages are installed.
 
-**1.3 (Optional) Flash Attention 2**
+**1.3 Flash Attention 2**
 
 We can install Flash Attention through pip if not already installed:
 
@@ -160,9 +162,17 @@ We can install Flash Attention through pip if not already installed:
 pip install flash-attn --no-build-isolation
 ```
 
+**1.4 DeepSpeed**
+
+We will also install DeepSpeed if not already installed:
+
+```bash
+pip install deepspeed==0.16.8
+```
+
 **Remember to activate the `myenv` conda environment for all steps.**
 
-**1.4. Downloading the Subset of AceReason-1.1-SFT to local directory**
+**1.5. Downloading the Subset of AceReason-1.1-SFT to local directory**
 
 We will download subset of [AceReason-1.1-SFT](https://huggingface.co/datasets/nvidia/AceReason-1.1-SFT) of size 100K.
 This will be the dataset we mainly use to train our models.
@@ -203,7 +213,7 @@ You can either create bash file or run directly:
 #SBATCH --nodes=1                   # Request a single node
 #SBATCH --ntasks-per-node=2         # Request 2 CPU cores
 #SBATCH --time=1:00:00              # Set a 1-hour time limit
-#SBATCH --partition=h200_normal_q    # Specify the GPU partition
+#SBATCH --partition=h200_normal_q   # Specify the GPU partition: h200_normal_q, a100_normal_q on Tinkercliffs | a30_normal_q on Falcon
 #SBATCH --account=ece_6514          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
 
@@ -237,7 +247,7 @@ You can either create bash file or run directly:
 #SBATCH --nodes=1                   # Request a single node
 #SBATCH --ntasks-per-node=2         # Request 2 CPU cores
 #SBATCH --time=1:00:00              # Set a 1-hour time limit
-#SBATCH --partition=h200_normal_q    # Specify the GPU partition
+#SBATCH --partition=h200_normal_q   # Specify the GPU partition: h200_normal_q, a100_normal_q on Tinkercliffs | a30_normal_q on Falcon
 #SBATCH --account=ece_6514          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
 
@@ -309,7 +319,7 @@ model_name_or_path: Qwen/Qwen2.5-3B-Instruct
 stage: sft
 do_train: true
 finetuning_type: full
-deepspeed: examples/deepspeed/ds_z3_offload_config.json //Edit if needed
+deepspeed: examples/deepspeed/ds_z3_offload_config.json
 flash_attn: fa2
 
 ### dataset
@@ -328,12 +338,12 @@ plot_loss: true
 overwrite_output_dir: true
 
 ### train
-per_device_train_batch_size: 1      //Edit if needed
-gradient_accumulation_steps: 8      //Edit if needed
-learning_rate: 5.0e-6               //Edit if needed
-num_train_epochs: 10                //Edit if needed
+per_device_train_batch_size: 1      //Edit if needed (Tweak as needed)
+gradient_accumulation_steps: 8      //Edit if needed (Tweak as needed)
+learning_rate: 5.0e-6               //Edit if needed (Tweak as needed)
+num_train_epochs: 10                //Edit if needed (Tweak as needed)
 lr_scheduler_type: cosine
-warmup_ratio: 0.0                   //Edit if needed
+warmup_ratio: 0.0                   //Edit if needed (Tweak as needed)
 bf16: true
 ddp_timeout: 180000000
 
@@ -362,7 +372,7 @@ Similarly, we will use `lighteval` here:
 #SBATCH --nodes=1                   # Request a single node
 #SBATCH --ntasks-per-node=2         # Request 2 CPU cores
 #SBATCH --time=1:00:00              # Set a 1-hour time limit
-#SBATCH --partition=h200_normal_q    # Specify the GPU partition
+#SBATCH --partition=h200_normal_q   # Specify the GPU partition: h200_normal_q, a100_normal_q on Tinkercliffs | a30_normal_q on Falcon
 #SBATCH --account=ece_6514          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
 
