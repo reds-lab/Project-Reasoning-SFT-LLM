@@ -170,7 +170,7 @@ This will be the dataset we mainly use to train our models.
 from huggingface_hub import hf_hub_download
 # Login using e.g. `huggingface-cli login` to access this dataset
 
-hf_hub_download(repo_id="redsgnaoh/acereason11_100k", filename="data/acereason11_100k.json", local_dir=/path/to/yourdata)
+hf_hub_download(repo_id="redsgnaoh/acereason11_100k", repo_type="dataset", filename="data/acereason11_100k.json", local_dir="/path/to/yourdata")
 
 ```
 
@@ -229,7 +229,9 @@ Record the scores from these evaluations. They will be your baseline for compari
 
 ## 3. Dataset Creation from AceReason-1.1-SFT
 
-Here, we create a training dataset to train our model. We randomly select a subset of 15K data from AceReason-1.1-SFT 100K subset (`acereason11_100k.json`).
+
+
+Here, we create a training dataset to train our model. We randomly select a subset of 15K data from AceReason-1.1-SFT 100K subset (`acereason11_100k.json`). Remember, we downloaded the file in step 1.4.
 Then, we will structure the selected data in the format suitable for LLaMA-Factory, as shown here: [https://raw.githubusercontent.com/GAIR-NLP/LIMO/refs/heads/main/train/data/limo.json](https://raw.githubusercontent.com/GAIR-NLP/LIMO/refs/heads/main/train/data/limo.json). 
 
 ```
