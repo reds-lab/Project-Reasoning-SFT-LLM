@@ -126,7 +126,7 @@ module load CUDA/12.6.0
 
 Create an account and token (read and write access) on Huggingface: [https://huggingface.co/docs/hub/security-tokens](https://huggingface.co/docs/hub/security-tokens).
 
-
+Then go here and access the GPQA dataset repository: [https://huggingface.co/datasets/Idavidrein/gpqa](https://huggingface.co/datasets/Idavidrein/gpqa).
 
 
 **1.1. [LLaMA-Factory](LLaMA-Factory) for Training**
