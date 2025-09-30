@@ -66,7 +66,7 @@ First, create a shell script file named `run_training.sh`. This file will contai
 #SBATCH --nodes=1                   # Request a single node
 #SBATCH --ntasks-per-node=8         # Request 8 CPU cores
 #SBATCH --time=5:00:00              # Set a 5-hour time limit
-#SBATCH --partition=dgx_normal_q    # Specify the GPU partition
+#SBATCH --partition=h200_normal_q    # Specify the GPU partition
 #SBATCH --account=ece_6514          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
 
@@ -194,6 +194,19 @@ You can either create bash file or run directly:
 ```bash
 #!/bin/bash
 
+#-- SLURM Job Directives --#
+#SBATCH --nodes=1                   # Request a single node
+#SBATCH --ntasks-per-node=8         # Request 8 CPU cores
+#SBATCH --time=5:00:00              # Set a 5-hour time limit
+#SBATCH --partition=h200_normal_q    # Specify the GPU partition
+#SBATCH --account=ece_6514          # Your class-specific account
+#SBATCH --gres=gpu:1                # Request 1 GPU
+
+module load Miniconda3
+module load CUDA/12.6.0
+
+source activate myenv
+
 export VLLM_WORKER_MULTIPROC_METHOD=spawn
 NUM_GPUS=2
 MODEL=Qwen/Qwen2.5-3B-Instruct
@@ -214,6 +227,19 @@ You can either create bash file or run directly:
 
 ```bash
 #!/bin/bash
+
+#-- SLURM Job Directives --#
+#SBATCH --nodes=1                   # Request a single node
+#SBATCH --ntasks-per-node=8         # Request 8 CPU cores
+#SBATCH --time=5:00:00              # Set a 5-hour time limit
+#SBATCH --partition=h200_normal_q    # Specify the GPU partition
+#SBATCH --account=ece_6514          # Your class-specific account
+#SBATCH --gres=gpu:1                # Request 1 GPU
+
+module load Miniconda3
+module load CUDA/12.6.0
+
+source activate myenv
 
 export VLLM_WORKER_MULTIPROC_METHOD=spawn
 NUM_GPUS=2
@@ -326,6 +352,19 @@ Similarly, we will use `lighteval` here:
 
 ```bash
 #!/bin/bash
+
+#-- SLURM Job Directives --#
+#SBATCH --nodes=1                   # Request a single node
+#SBATCH --ntasks-per-node=8         # Request 8 CPU cores
+#SBATCH --time=5:00:00              # Set a 5-hour time limit
+#SBATCH --partition=h200_normal_q    # Specify the GPU partition
+#SBATCH --account=ece_6514          # Your class-specific account
+#SBATCH --gres=gpu:1                # Request 1 GPU
+
+module load Miniconda3
+module load CUDA/12.6.0
+
+source activate myenv
 
 export VLLM_WORKER_MULTIPROC_METHOD=spawn
 NUM_GPUS=2
