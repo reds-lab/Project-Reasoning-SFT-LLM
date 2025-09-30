@@ -64,8 +64,8 @@ First, create a shell script file named `run_training.sh`. This file will contai
 
 #-- SLURM Job Directives --#
 #SBATCH --nodes=1                   # Request a single node
-#SBATCH --ntasks-per-node=8         # Request 8 CPU cores
-#SBATCH --time=5:00:00              # Set a 5-hour time limit
+#SBATCH --ntasks-per-node=2         # Request 2 CPU cores
+#SBATCH --time=1:00:00              # Set a 1-hour time limit
 #SBATCH --partition=h200_normal_q    # Specify the GPU partition
 #SBATCH --account=ece_6514          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
@@ -196,8 +196,8 @@ You can either create bash file or run directly:
 
 #-- SLURM Job Directives --#
 #SBATCH --nodes=1                   # Request a single node
-#SBATCH --ntasks-per-node=8         # Request 8 CPU cores
-#SBATCH --time=5:00:00              # Set a 5-hour time limit
+#SBATCH --ntasks-per-node=2         # Request 2 CPU cores
+#SBATCH --time=1:00:00              # Set a 1-hour time limit
 #SBATCH --partition=h200_normal_q    # Specify the GPU partition
 #SBATCH --account=ece_6514          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
@@ -230,8 +230,8 @@ You can either create bash file or run directly:
 
 #-- SLURM Job Directives --#
 #SBATCH --nodes=1                   # Request a single node
-#SBATCH --ntasks-per-node=8         # Request 8 CPU cores
-#SBATCH --time=5:00:00              # Set a 5-hour time limit
+#SBATCH --ntasks-per-node=2         # Request 2 CPU cores
+#SBATCH --time=1:00:00              # Set a 1-hour time limit
 #SBATCH --partition=h200_normal_q    # Specify the GPU partition
 #SBATCH --account=ece_6514          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
@@ -355,8 +355,8 @@ Similarly, we will use `lighteval` here:
 
 #-- SLURM Job Directives --#
 #SBATCH --nodes=1                   # Request a single node
-#SBATCH --ntasks-per-node=8         # Request 8 CPU cores
-#SBATCH --time=5:00:00              # Set a 5-hour time limit
+#SBATCH --ntasks-per-node=2         # Request 2 CPU cores
+#SBATCH --time=1:00:00              # Set a 1-hour time limit
 #SBATCH --partition=h200_normal_q    # Specify the GPU partition
 #SBATCH --account=ece_6514          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
