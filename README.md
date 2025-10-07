@@ -341,7 +341,7 @@ overwrite_output_dir: true
 per_device_train_batch_size: 1      //Edit if needed (Tweak as needed)
 gradient_accumulation_steps: 8      //Edit if needed (Tweak as needed)
 learning_rate: 5.0e-6               //Edit if needed (Tweak as needed)
-num_train_epochs: 10                //Edit if needed (Tweak as needed)
+num_train_epochs: 3                //Edit if needed (Tweak as needed)
 lr_scheduler_type: cosine
 warmup_ratio: 0.0                   //Edit if needed (Tweak as needed)
 bf16: true
