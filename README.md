@@ -448,7 +448,7 @@ Main Goal: Can you beat the random baseline? 😉
 
 ## 8. Submission
 
-Upon completion of the assignment, you will need to submit the following:
+Upon completion of the assignment, you will need to submit as a team the following:
 
 *   A link to your GitHub repository containing all necessary files and your final README.md.
 *   Push your models to Huggingface: [https://huggingface.co/docs/hub/en/models-uploading](https://huggingface.co/docs/hub/en/models-uploading).
