@@ -452,6 +452,7 @@ Upon completion of the assignment, you will need to submit as a team the followi
 
 *   A link to your GitHub repository containing all necessary files and your final README.md.
 *   Push your models to Huggingface: [https://huggingface.co/docs/hub/en/models-uploading](https://huggingface.co/docs/hub/en/models-uploading).
+*   Push both of your datasets (random and advanced) to Huggingface: [https://huggingface.co/docs/hub/en/datasets-adding](https://huggingface.co/docs/hub/en/datasets-adding).
 *   A report summarizing your findings. This report must include:
     *   The baseline performance of the original Qwen2.5-3B-Instruct model.
     *   The performance results of your fine-tuned model.
