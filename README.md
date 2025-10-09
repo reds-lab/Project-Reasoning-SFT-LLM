@@ -131,6 +131,10 @@ Create an account and token (read and write access) on Huggingface: [https://hug
 Then go here and access the GPQA dataset repository: [https://huggingface.co/datasets/Idavidrein/gpqa](https://huggingface.co/datasets/Idavidrein/gpqa).
 
 
+**1.0.1 Setup Wandb Token**
+
+Create an account and token on Wandb: [https://docs.wandb.ai/quickstart/](https://docs.wandb.ai/quickstart/).
+
 **1.1. [LLaMA-Factory](LLaMA-Factory) for Training**
 
 ```bash
