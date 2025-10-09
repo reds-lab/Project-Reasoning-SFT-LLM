@@ -78,7 +78,7 @@ module load CUDA/12.6.0
 source activate your_env_name
 
 # Command to start the fine-tuning job
-llamafactory-cli train yamls/your_sft_config.yaml
+FORCE_TORCHRUN=1 llamafactory-cli train yamls/your_sft_config.yaml
 
 # If running a custom python script instead:
 # python my_training_script.py
@@ -354,10 +354,28 @@ ddp_timeout: 180000000
 report_to: wandb
 ```
 
-To start the training, run the following command in your terminal:
+To start the training, run the following bash file in your terminal with `sbatch run_training.sh`:
 
 ```bash
-llamafactory-cli train sft_config.yaml
+#!/bin/bash
+
+#-- SLURM Job Directives --#
+#SBATCH --nodes=1                   # Request a single node
+#SBATCH --ntasks-per-node=2         # Request 2 CPU cores
+#SBATCH --time=1:00:00              # Set a 1-hour time limit
+#SBATCH --partition=h200_normal_q   # Specify the GPU partition: h200_normal_q, a100_normal_q on Tinkercliffs | a30_normal_q on Falcon
+#SBATCH --account=ece_6514          # Your class-specific account
+#SBATCH --gres=gpu:1                # Request 1 GPU
+
+module load Miniconda3
+module load CUDA/12.6.0
+
+#-- Your Code Execution --#
+# Ensure you are in the correct conda environment if necessary
+source activate your_env_name
+
+# Command to start the fine-tuning job
+FORCE_TORCHRUN=1 llamafactory-cli train yamls/your_sft_config.yaml
 ```
 
 This command will download the model and dataset (if not cached) and save the trained model to the `saves/qwen25_3b_instruct/your_name` directory.
