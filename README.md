@@ -489,5 +489,13 @@ This assignment will provide you with hands-on experience in fine-tuning large l
 We will post a live benchmark of submitted models.
 The TOP 5 teams will get a bonus of 10 points!
 
-
 Good luck!
+
+**Leaderboard (Not Final - Rolling Updates)**
+
+| Position | Team     | Model               | AIME24 | AIME25 | MATH | CN_MATH_24 | KAOYAN | GAOKAO | OLYMPIADBENCH | MMLU | LiveCodeBench | GPQA | AVG |
+|----------|----------|---------------------|--------|--------|------|------------|--------|--------|---------------|------|---------------|------|-----|
+|          | BASELINE | Qwen2.5-3B-Instruct |        |        |      |            |        |        |               |      |               |      |     |
+|          |          |                     |        |        |      |            |        |        |               |      |               |      |     |
+|          |          |                     |        |        |      |            |        |        |               |      |               |      |     |
+|          |          |                     |        |        |      |            |        |        |               |      |               |      |     |
