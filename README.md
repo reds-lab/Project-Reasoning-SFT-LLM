@@ -493,9 +493,9 @@ Good luck!
 
 **Leaderboard (Not Final - Rolling Updates)**
 
-| Position | Team     | Model               | AIME24 | AIME25 | MATH | CN_MATH_24 | KAOYAN | GAOKAO | OLYMPIADBENCH | MMLU | LiveCodeBench | GPQA | AVG |
+| Position | Team     | Model               | AIME24 | AIME25 | MATH | CN_MATH_24 | KAOYAN | AMC | OLYMPIADBENCH | MMLU | LiveCodeBench | GPQA | AVG |
 |----------|----------|---------------------|--------|--------|------|------------|--------|--------|---------------|------|---------------|------|-----|
-|          | BASELINE | Qwen2.5-3B-Instruct |        |        |      |            |        |        |               |      |               |      |     |
+|          | BASELINE | Qwen2.5-3B-Instruct |   0.2   | 0.1  | 0.844  |  0.233    |  0.512 |   0.7  |  0.494         |      |               | 0.742 |     |
 |          |          |                     |        |        |      |            |        |        |               |      |               |      |     |
 |          |          |                     |        |        |      |            |        |        |               |      |               |      |     |
 |          |          |                     |        |        |      |            |        |        |               |      |               |      |     |
