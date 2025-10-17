@@ -491,11 +491,30 @@ The TOP 5 teams will get a bonus of 10 points!
 
 Good luck!
 
-**Leaderboard (Not Final - Rolling Updates)**
+### Leaderboard (Not Final - Rolling Updates - Remaining Models are still being evaluated )
 
-| Position | Team     | Model               | AIME24 | AIME25 | MATH | CN_MATH_24 | KAOYAN | AMC | OLYMPIADBENCH | MMLU | LiveCodeBench | GPQA | AVG |
-|----------|----------|---------------------|--------|--------|------|------------|--------|--------|---------------|------|---------------|------|-----|
-|          | BASELINE | Qwen2.5-3B-Instruct |   0.2   | 0.1  | 0.844  |  0.233    |  0.512 |   0.7  |  0.494         |      |               | 0.742 |     |
-|          |          |                     |        |        |      |            |        |        |               |      |               |      |     |
-|          |          |                     |        |        |      |            |        |        |               |      |               |      |     |
-|          |          |                     |        |        |      |            |        |        |               |      |               |      |     |
+Evaluation Setup: 
+
+- Temperature: 0.6
+- Top-p: 0.95
+- Samples: 8
+- Max tokens: 32768
+- System prompt: "Please reason step by step, and put your final answer within \\boxed{}."
+- Bold **Datasets** indicate benchmarks used to measure the average performance
+- Pass@k: k=8
+- Only the best model will be counted towards a team score
+- We will release full model responses
+
+| Position (Subject to change) | Team     | Model               | AIME24 | **AIME25** | MATH | **CN_MATH_24** | **KAOYAN** | **AMC** | **MINERVA** | **OLYMPIADBENCH** | MMLU | **GPQA** | AVG |
+|----------|----------|---------------------|--------|--------|------|:------------:|--------|--------|---------------|:----:|----|------|-----|
+|     1    |     6    |  ashleyferraro/qwen25_3b_intruct_diverse   |   0.200   |  0.100  |  0.844  |    0.233   |   0.513  |     0.700   |     0.338     |   0.495 |    |  0.742    |  0.524 |
+|     2    |     10    |  nabinadhikariofficial/LLM-SFT-finetuned-model   |   0.267   |  0.200  |  0.874  |    0.500   |   0.653  |     0.700   |     0.349     |   0.572 |    |  0.652    | 0.518 |
+|     3    |     4    |  apoorva2311/Limopro-model   |   0.233   |  0.167  |  0.852  |    0.333   |   0.623  |     0.725   |     0.324     |   0.505 |    |  0.778    | 0.494 |
+|     4    |     5     |   feiyangk/SFT-15k-411-Best    |   0.167   |   0.167   |    0.862  |    0.333     | 0.608    |   0.725   |     0.327      |   0.499  |      | 0.793  |   0.493  |
+|     5    |     1     |  itsmehyperbee/sftStrategyQwen2.5-3B-Instruct  | 0.2   |  0.167      |   0.840   |    0.4        |   0.603     |     0.7   |   0.312           |      0.476        |       |   0.783   |   0.492  |
+|     6    |     3    |  benjivt/ece6514-group3-qwen25-3b-diversity15k   |   0.200   |  0.200  |  0.852  |    0.300   |   0.492  |     0.700   |     0.360     |   0.521 |    |  0.808    | 0.483 |
+|     7    |     12    |  sarveshdc/Qwen2.5-3B-AceReason-SFT   |   0.200   |  0.100  |  0.852  |    0.333   |   0.583  |     0.700   |     0.335     |   0.498 |    |  0.692    | 0.463 |
+|     8    | RANDOM   |  rand1   |   0.167   |  0.100  |  0.834  |    0.367   |   0.482  |     0.725   |     0.349     |   0.499 |    |  0.631    | 0.451 |
+|     9    | BASELINE | Qwen2.5-3B-Instruct |   0.2   | 0.1  | 0.844  |  0.233    |  0.513 |   0.7  |    0.338   |  0.495      |    | 0.742 |   0.446  |
+|     10   |     11    |  jhjeong99/Qwen2.5-3B-Intstruct_Limopro   |   0.133   |  0.033  |  0.774  |    0.167   |   0.437  |     0.575   |     0.335     |   0.397 |    |  0.707    | 0.379 |
+|     11   |     9    |  cuong1692001/Qwen2.5-3B-Instruct_15K_Selective    |   0.067   |  0.100  |  0.756  |    0.100   |   0.412  |     0.450   |     0.261     |   0.366 |    |  0.530    |  0.317 |
