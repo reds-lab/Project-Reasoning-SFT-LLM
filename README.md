@@ -491,7 +491,7 @@ The TOP 5 teams will get a bonus of 10 points!
 
 Good luck!
 
-### Leaderboard (Not Final - Rolling Updates - Remaining Models are still being evaluated )
+### Leaderboard 
 
 Evaluation Setup: 
 
@@ -505,7 +505,7 @@ Evaluation Setup:
 - Only the best model will be counted towards a team score
 - Evaluation responses available per request
 
-| Position (Subject to change) | Team     | Model               | AIME24 | <ins>**AIME25**</ins> | MATH | <ins>**CN_MATH_24**</ins> | <ins>**KAOYAN**</ins> | <ins>**AMC**</ins> | <ins>**MINERVA**</ins> | <ins>**OLYMPIADBENCH**</ins>  | <ins>**GPQA**</ins> | AVG |
+| Position | Team     | Model               | AIME24 | <ins>**AIME25**</ins> | MATH | <ins>**CN_MATH_24**</ins> | <ins>**KAOYAN**</ins> | <ins>**AMC**</ins> | <ins>**MINERVA**</ins> | <ins>**OLYMPIADBENCH**</ins>  | <ins>**GPQA**</ins> | AVG |
 |----------|----------|---------------------|--------|--------|------|:------------:|--------|--------|---------------|:----:|------|-----|
 |     1   |     9    |  BJJ5555/ECE6514_models    |   0.233   |  0.233  |  0.900  |    0.433   |   0.688  |     0.800   |     0.346     |   0.569 |     0.606    |  0.525 |
 |     2    |     6    |  ashleyferraro/qwen25_3b_intruct_diverse   |   0.200   |  0.100  |  0.844  |    0.233   |   0.513  |     0.700   |     0.338     |   0.495 |      0.742    |  0.524 |
