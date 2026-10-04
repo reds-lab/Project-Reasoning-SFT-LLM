@@ -5,13 +5,14 @@ SFT Training LLM for Improved Reasoning
 
 This assignment will guide you through the process of supervised fine-tuning (SFT) a large language model, [Qwen2.5-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-3B-Instruct), to improve reasoning. You will first benchmark the base model's performance, then fine-tune it on the AceReason-1.1-SFT subset, and finally evaluate the fine-tuned model to measure the improvement on mathematical and general reasoning benchmarks.
 
-**DEADLINE 0 (Self Team Assignment - Please Check Canvas!): Wednesday Sep 24, 2025 [11:59ET] ** 
-**DEADLINE: Friday Oct 10, 2025 [11:59ET] ** 
+**DEADLINE 0 (Self Team Assignment - Please Check Canvas!): Monday Oct 5, 2026 [11:59ET]**
+
+**DEADLINE: Sunday Oct 11, 2026 [11:59ET]**
 
 
 
 Late submissions will not be accepted.
-If you have questions or feedback, please submit an issue or contact Hoang [just@vt.edu].
+If you have questions or run into problems, please seek help from a coding agent (e.g., Claude Code) first. If you still need help from a human, please submit an issue or contact Cuong [cuongdc@vt.edu].
 
 
 OUTCOMES:
@@ -26,7 +27,7 @@ Helpful Links:
 - Model: [Qwen2.5-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-3B-Instruct)
 - Dataset: [AceReason-1.1-SFT SUBSET 100K](https://huggingface.co/datasets/redsgnaoh/acereason11_100k)
 - LLaMA-Factory: [https://github.com/hiyouga/LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)
-- Eval: [lighteval](https://github.com/huggingface/lighteval)
+- Eval: [eval](eval/) (vLLM generation + rule-based math grading)
 - ARC On Demand: [Instructions](https://www.docs.arc.vt.edu/get_started.html)
 
 
@@ -146,14 +147,14 @@ pip install -r requirements.txt
 pip install -e ".[torch,metrics]" --no-build-isolation
 ```
 
-**1.2. [lighteval](https://github.com/huggingface/lighteval) Evaluation**
+**1.2. Evaluation Dependencies ([eval](eval/))**
 
+We evaluate with the scripts in the [eval](eval/) folder, which generate responses with vLLM and grade the final `\boxed{}` answers with a rule-based math grader.
+Install the extra packages it needs into the same environment:
 
 ```bash
-git clone https://github.com/huggingface/lighteval.git
-cd lighteval/
-pip install lighteval[vllm,extended_tasks,math,dev] 
-pip install -e .
+pip install vllm word2number
+pip install --no-deps latex2sympy2==1.9.1   # --no-deps keeps antlr4 at the version omegaconf needs
 ```
 
 Use `conda list` to check if your packages are installed.
@@ -203,73 +204,58 @@ The `acereason11_100k.json` file is in a 'training-ready' format. (More informat
 Before fine-tuning, it is crucial to establish a performance baseline. You will evaluate the original `Qwen/Qwen2.5-3B-Instruct` model on the same benchmarks you will use for the fine-tuned version. 
 
 
-### 2.1. Mathematical Reasoning with Lighteval
+### 2.1. Reasoning Benchmarks
 
-Here, we will evaluate the base model's reasoning capability on math and science benchmarks using `lighteval` package.
-For this, we include the popular reasoning benchmarks, including [AIME2024](https://huggingface.co/datasets/HuggingFaceH4/aime_2024), [AIME2025](https://huggingface.co/datasets/opencompass/AIME2025), [MATH-500](https://huggingface.co/datasets/HuggingFaceH4/MATH-500) for math, [GPQA-Diamond](https://huggingface.co/datasets/Idavidrein/gpqa) for science, and [LiveCodeBench](https://github.com/LiveCodeBench/LiveCodeBench) for code generation.
+We evaluate the model's reasoning capability on math and science benchmarks using the scripts in the [eval](eval/) folder.
+The benchmarks are included in [eval/data](eval/data/):
 
-You can either create bash file or run directly:
+| Name | Benchmark | # Problems |
+|------|-----------|-----------:|
+| `aime` | AIME 2024 | 30 |
+| `math` | MATH-500 | 499 |
+| `cn_math_2024` | Chinese Math Competitions 2024 | 30 |
+| `kaoyan` | Kaoyan (Chinese graduate entrance exam) | 199 |
+| `amc` | AMC 2023 | 40 |
+| `minerva` | Minerva Math | 272 |
+| `olympiadbench` | OlympiadBench | 675 |
+| `gpqa` | GPQA-Diamond (science) | 198 |
 
-```bash
-#!/bin/bash
+The evaluation settings match the [Leaderboard](#leaderboard): temperature 0.6, top-p 0.95, 8 samples per problem, max 32768 tokens, and the system prompt `"Please reason step by step, and put your final answer within \\boxed{}."`.
 
-#-- SLURM Job Directives --#
-#SBATCH --nodes=1                   # Request a single node
-#SBATCH --ntasks-per-node=2         # Request 2 CPU cores
-#SBATCH --time=1:00:00              # Set a 1-hour time limit
-#SBATCH --partition=h200_normal_q   # Specify the GPU partition: h200_normal_q, a100_normal_q on Tinkercliffs | a30_normal_q on Falcon
-#SBATCH --account=ece_6514          # Your class-specific account
-#SBATCH --gres=gpu:1                # Request 1 GPU
-
-module load Miniconda3
-module load CUDA/12.6.0
-
-source activate myenv
-
-export VLLM_WORKER_MULTIPROC_METHOD=spawn
-NUM_GPUS=1
-MODEL=Qwen/Qwen2.5-3B-Instruct
-MODEL_ARGS="model_name=$MODEL,dtype=bfloat16,tensor_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.95,generation_parameters={max_new_tokens:32768,temperature:0.6,top_p:0.95}"
-OUTPUT_DIR=your/output/dir
-
-lighteval vllm $MODEL_ARGS "lighteval|aime24|0|0,lighteval|aime25|0|0,lighteval|math_500|0|0,lighteval|gpqa:diamond|0|0,extended|lcb:codegeneration|0|0" \
-    --save-details \
---output-dir $OUTPUT_DIR
-```
-
-### 2.2. General Benchmarks with Lighteval
-
-Here, we will run the evaluation on the [MMLU-Redux-2](https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux-2.0) benchmark to measure the general performance of the model using `lighteval`.
-Please read [https://huggingface.co/docs/lighteval/main/en/quicktour](https://huggingface.co/docs/lighteval/main/en/quicktour) for more information.
-
-You can either create bash file or run directly:
+All scripts must be submitted from inside the `eval` folder:
 
 ```bash
-#!/bin/bash
+cd eval
 
-#-- SLURM Job Directives --#
-#SBATCH --nodes=1                   # Request a single node
-#SBATCH --ntasks-per-node=2         # Request 2 CPU cores
-#SBATCH --time=1:00:00              # Set a 1-hour time limit
-#SBATCH --partition=h200_normal_q   # Specify the GPU partition: h200_normal_q, a100_normal_q on Tinkercliffs | a30_normal_q on Falcon
-#SBATCH --account=ece_6514          # Your class-specific account
-#SBATCH --gres=gpu:1                # Request 1 GPU
+# Evaluate on all benchmarks (one after another)
+sbatch eval.sh
 
-module load Miniconda3
-module load CUDA/12.6.0
+# Evaluate on a single benchmark
+sbatch eval_single.sh amc
+```
 
-source activate myenv
+Both scripts evaluate `Qwen/Qwen2.5-3B-Instruct` by default. You can override these settings with environment variables:
 
-export VLLM_WORKER_MULTIPROC_METHOD=spawn
-NUM_GPUS=1
-MODEL=Qwen/Qwen2.5-3B-Instruct
-MODEL_ARGS="model_name=$MODEL,dtype=bfloat16,tensor_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.8,generation_parameters={max_new_tokens:32768,temperature:0.6,top_p:0.95}"
-OUTPUT_DIR=your/output/dir
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `MODEL` | `Qwen/Qwen2.5-3B-Instruct` | Hugging Face model name or path to your local checkpoint |
+| `OUTPUT_DIR` | `./outputs` | Where generations and logs are saved |
+| `CONDA_ENV` | `myenv` | Conda environment to activate |
+| `GPU_MEM_UTIL` | `0.96` | Fraction of GPU memory vLLM may use (lower it if the GPU is shared) |
 
-lighteval vllm $MODEL_ARGS "lighteval|mmlu_redux_2|0|0" \
---output-dir $OUTPUT_DIR
+For example: `MODEL=/path/to/your/model OUTPUT_DIR=/path/to/outputs sbatch eval.sh`.
+
+For each benchmark, the log `$OUTPUT_DIR/log_<benchmark>.txt` ends with two scores:
 
 ```
+correct cnt / total cnt: 32/40
+Acc: 0.8000                      # pass@8: a problem counts as solved if any of the 8 samples is correct
+Pass@1: 16.125/40 = 0.4031       # average accuracy over the 8 samples
+```
+
+The full generations, extracted answers and per-sample correctness are saved to `$OUTPUT_DIR/<model>/<benchmark>/*.jsonl`.
+If that file already exists, the benchmark is skipped, so you can resubmit `eval.sh` to resume a job that ran out of time.
+
 Record the scores from these evaluations. They will be your baseline for comparison.
 
 ## 3. Dataset Creation from AceReason-1.1-SFT
@@ -385,33 +371,11 @@ This command will download the model and dataset (if not cached) and save the tr
 ## 6. Fine-Tuned Model Evaluation
 
 After fine-tuning, you will evaluate your new model and compare its performance to the baseline.
-Similarly, we will use `lighteval` here:
+Similarly, we will use the [eval](eval/) scripts here, pointing `MODEL` to your trained checkpoint:
 
 ```bash
-#!/bin/bash
-
-#-- SLURM Job Directives --#
-#SBATCH --nodes=1                   # Request a single node
-#SBATCH --ntasks-per-node=2         # Request 2 CPU cores
-#SBATCH --time=1:00:00              # Set a 1-hour time limit
-#SBATCH --partition=h200_normal_q   # Specify the GPU partition: h200_normal_q, a100_normal_q on Tinkercliffs | a30_normal_q on Falcon
-#SBATCH --account=ece_6514          # Your class-specific account
-#SBATCH --gres=gpu:1                # Request 1 GPU
-
-module load Miniconda3
-module load CUDA/12.6.0
-
-source activate myenv
-
-export VLLM_WORKER_MULTIPROC_METHOD=spawn
-NUM_GPUS=1
-MODEL=/path/to/your/model
-MODEL_ARGS="model_name=$MODEL,dtype=bfloat16,tensor_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.95,generation_parameters={max_new_tokens:32768,temperature:0.6,top_p:0.95}"
-OUTPUT_DIR=your/output/dir
-
-lighteval vllm $MODEL_ARGS "lighteval|aime24|0|0,lighteval|aime25|0|0,lighteval|math_500|0|0,lighteval|gpqa:diamond|0|0,extended|lcb:codegeneration|0|0,lighteval|mmlu_redux_2|0|0" \
-    --save-details \
---output-dir $OUTPUT_DIR
+cd eval
+MODEL=/path/to/your/model sbatch eval.sh
 ```
 
 Compare these new scores with your baseline to see the impact of fine-tuning.
@@ -491,7 +455,9 @@ The TOP 5 teams will get a bonus of 10 points!
 
 Good luck!
 
-### Leaderboard 
+### Leaderboard
+
+> **Note:** The leaderboard below is an example from the **Fall 2025** semester. It will be updated with this semester's results after the assignment deadline.
 
 Evaluation Setup: 
 
