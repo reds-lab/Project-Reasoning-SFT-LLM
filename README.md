@@ -68,7 +68,7 @@ First, create a shell script file named `run_training.sh`. This file will contai
 #SBATCH --ntasks-per-node=2         # Request 2 CPU cores
 #SBATCH --time=1:00:00              # Set a 1-hour time limit
 #SBATCH --partition=h200_normal_q   # Specify the GPU partition: h200_normal_q, a100_normal_q on Tinkercliffs | a30_normal_q on Falcon
-#SBATCH --account=ece_6514          # Your class-specific account
+#SBATCH --account=tml_2026          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
 
 module load Miniconda3
@@ -350,7 +350,7 @@ To start the training, run the following bash file in your terminal with `sbatch
 #SBATCH --ntasks-per-node=2         # Request 2 CPU cores
 #SBATCH --time=1:00:00              # Set a 1-hour time limit
 #SBATCH --partition=h200_normal_q   # Specify the GPU partition: h200_normal_q, a100_normal_q on Tinkercliffs | a30_normal_q on Falcon
-#SBATCH --account=ece_6514          # Your class-specific account
+#SBATCH --account=tml_2026          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
 
 module load Miniconda3
