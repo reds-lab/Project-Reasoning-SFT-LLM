@@ -5,9 +5,9 @@ SFT Training LLM for Improved Reasoning
 
 This assignment will guide you through the process of supervised fine-tuning (SFT) a large language model, [Qwen2.5-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-3B-Instruct), to improve reasoning. You will first benchmark the base model's performance, then fine-tune it on the AceReason-1.1-SFT subset, and finally evaluate the fine-tuned model to measure the improvement on mathematical and general reasoning benchmarks.
 
-**DEADLINE 0 (Self Team Assignment - Please Check Canvas!): Monday Oct 5, 2026 [11:59ET]**
+**START DATE (Self Team Assignment - Please Check Canvas!): Monday Oct 5, 2026**
 
-**DEADLINE: Sunday Oct 11, 2026 [11:59ET]**
+**DEADLINE: Wednesday Oct 14, 2026 [11:59ET]**
 
 
 
