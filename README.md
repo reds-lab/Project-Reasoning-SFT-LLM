@@ -7,7 +7,7 @@ This assignment will guide you through the process of supervised fine-tuning (SF
 
 **START DATE (Self Team Assignment - Please Check Canvas!): Monday Oct 5, 2026**
 
-**DEADLINE: Wednesday Oct 14, 2026 [11:59ET]**
+**DEADLINE: Tuesday Oct 20, 2026 [11:59ET]**
 
 
 
